@@ -20,7 +20,7 @@ func main() {
     r := httprouter.New()
     v := validator.New()
 
-    rg := registry.NewInteractor(db, ps, v)
+//     rg := registry.NewInteractor(db, ps, v)
 //     h := rg.NewAppHandler()
 
     router.NewRouter(r, h)
