@@ -20,12 +20,13 @@ func main() {
     r := httprouter.New()
     v := validator.New()
 
-//     rg := registry.NewInteractor(db, ps, v)
-//     h := rg.NewAppHandler()
+    rg := registry.NewInteractor(db, ps, v)
+    h := rg.NewAppHandler()
 
     router.NewRouter(r, h)
 
-//     defer db.Close()
+    defer db.Close()
 
-    http.ListenAndServe(":8080", r)
+    http.ListenAndServe(":8080", r) 
+//     laskdjl
 }
