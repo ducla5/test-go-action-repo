@@ -21,7 +21,7 @@ func main() {
     v := validator.New()
 
     rg := registry.NewInteractor(db, ps, v)
-    h := rg.NewAppHandler()
+//     h := rg.NewAppHandler()
 
     router.NewRouter(r, h)
 
