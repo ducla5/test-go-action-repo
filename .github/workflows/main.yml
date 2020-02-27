@@ -12,7 +12,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('/goapp/go.sum') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('goapp/go.sum') }}
           restore-keys: |
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
