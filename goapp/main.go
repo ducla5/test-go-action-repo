@@ -1,10 +1,10 @@
 package main
 
 import (
-    "net/http"
+    "net/http"  
 
-    "github.com/go-playground/validator/v10"
-    "github.com/julienschmidt/httprouter"
+    "github.com/go-playground/validator/v10"  
+    "github.com/julienschmidt/httprouter"  
 
    "api/config"
    "api/infrastructure/api/router"
@@ -12,13 +12,13 @@ import (
    "api/registry"
 )
 
-func main() {
-    config.LoadConfig()
+func main() { 
+    config.LoadConfig()  
 
-    db := datastore.NewMySQL()
-    ps := datastore.NewPostgreSQL()
-    r := httprouter.New()
-    v := validator.New()
+    db := datastore.NewMySQL()  
+    ps := datastore.NewPostgreSQL()  
+    r := httprouter.New()  
+    v := validator.New()  
 
     rg := registry.NewInteractor(db, ps, v)               
     h := rg.NewAppHandler()                              
