@@ -1,106 +1,17 @@
 name: reviewdog
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-
+on: [pull_request]
 jobs:
-  reviewdog-github-check:
-    name: reviewdog (github-check)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-go@v1
-        with:
-          go-version: 1.13
-
-      - name: Add $GOPATH/bin
-        run: |
-          echo ::add-path::$(go env GOPATH)/bin
-      - uses: actions/checkout@v2
-
-      - name: Install linters
-        run: '( mkdir linters && cd linters && go get golang.org/x/lint/golint )'
-
-      - name: Setup reviewdog
-        run: |
-          # mkdir -p $HOME/bin && curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b $HOME/bin
-          # echo ::add-path::$HOME/bin
-          go install ./cmd/reviewdog
-      - name: Run reviewdog
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUBTOKEN }}
-        run: |
-          golint ./... | reviewdog -f=golint -name=golint-github-check -reporter=github-check -level=warning
-      - name: Run reviewdog with sub-dir (github-check)
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUBTOKEN }}
-        run: |
-          cd ./goapp/ && golint ./... | reviewdog -f=golint -name=golint-check-subdir -reporter=github-check -level=info
-  reviewdog-pr:
-    if: github.event_name == 'pull_request'
-    name: reviewdog on Pull Request
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-go@v1
-        with:
-          go-version: 1.13
-
-      - name: Add $GOPATH/bin
-        run: |
-          echo ::add-path::$(go env GOPATH)/bin
-      - uses: actions/checkout@v2
-
-      # https://github.com/actions/cache/blob/master/examples.md#go---modules
-      - name: Cache Go Modules
-        id: cache
-        uses: actions/cache@v1
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-      - name: Download Go Modules
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: go mod download
-
-      - name: Install linters
-        run: '( mkdir linters && cd linters && go get golang.org/x/lint/golint )'
-
-      - name: Setup reviewdog
-        run: |
-          # mkdir -p $HOME/bin && curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b $HOME/bin
-          # echo ::add-path::$HOME/bin
-          go install ./cmd/reviewdog
-      - name: Run reviewdog (github-pr-check)
-        continue-on-error: true
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUBTOKEN }}
-        run: |
-          reviewdog -reporter=github-pr-check -runners=golint,govet
-      - name: Run reviewdog (github-pr-review with tee)
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUBTOKEN }}
-        run: |
-          # Remove Go Problem Matchers [1] as it reports duplicate results with
-          # reviewdog.
-          # [1]: https://github.com/actions/toolkit/blob/master/docs/commands.md#problem-matchers
-          echo "::remove-matcher owner=go::"
-          golint ./... | reviewdog -f=golint -name=golint-pr-review -reporter=github-pr-review -tee
-      - name: Run reviewdog with sub-dir (github-pr-review)
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUBTOKEN }}
-        run: |
-          cd ./goapp/ && golint ./... | reviewdog -f=golint -name=golint-pr-review-subdir -reporter=github-pr-review -tee
   golangci-lint:
-    if: github.event_name == 'pull_request'
     name: runner / golangci-lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: reviewdog/action-golangci-lint@v1
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+      - name: get dependencies
+        run: go get
+        working-directory: goapp
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@v1
         with:
           github_token: ${{ secrets.GITHUBTOKEN }}
-          golangci_lint_flags: "--enable-all --exclude-use-default=false"
-          level: "warning"
-          reporter: github-pr-check
+          golangci_lint_flags: "--enable-all --exclude-use-default=false ./goapp"
