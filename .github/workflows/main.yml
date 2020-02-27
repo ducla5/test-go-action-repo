@@ -8,7 +8,8 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
       - name: go in to sub dir
-        working-directory: goapp
+        run: cd goapp
+      - name: go in to sub dir
         run: go get api
       - name: golangci-lint
         uses: reviewdog/action-golangci-lint@v1
