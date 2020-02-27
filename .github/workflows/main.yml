@@ -8,14 +8,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Cache Go modules
-        uses: actions/cache@preview
+        id: cache-go
+        uses: actions/cache@v1
         with:
           path: ~/go/pkg/mod
-          key: ${{ runner.os }}-build-${{ hashFiles('**/goapp/go.sum') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('**/goapp/go.sum') }}
           restore-keys: |
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
+      - name: Get Modules
+        if: steps.cache-go.outputs.cache-hit != 'true'
+        run: go get api
+        working-directory: goapp
       - name: Build
         run: go build api
         working-directory: goapp
