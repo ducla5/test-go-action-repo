@@ -1,3 +1,4 @@
+Current Status: ![reviewdog](https://github.com/ducla5/test-go-action-repo/workflows/reviewdog/badge.svg)
 ## Directories
 ```
 ├── config
