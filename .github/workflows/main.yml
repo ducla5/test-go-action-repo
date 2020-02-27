@@ -20,4 +20,5 @@ jobs:
           golangci_lint_flags: "--disable-all --exclude-use-default=false -E deadcode -E errcheck -E unused -E gofmt -E goimports -E golint -E gocritic -E whitespace"
           directory: goapp/
           reporter: github-pr-check
-          tool_name: CodeReview 
+          tool_name: CodeReview
+          level: info  
