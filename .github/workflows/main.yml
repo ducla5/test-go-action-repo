@@ -10,7 +10,7 @@ jobs:
       - name: go in to sub dir
         run: cd goapp
       - name: go in to sub dir
-        run: go get api
+        run: go get
       - name: golangci-lint
         uses: reviewdog/action-golangci-lint@v1
         with:
