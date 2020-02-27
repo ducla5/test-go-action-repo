@@ -21,4 +21,4 @@ jobs:
           directory: goapp/
           reporter: github-pr-check
           tool_name: CodeReview
-          level: info  
+          level: error  
