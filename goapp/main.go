@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-    i1, _ := strconv.Atoi("sad")
+    i1, err := strconv.Atoi("sad")
     fmt.Println(i1)
 		
     config.LoadConfig()
@@ -39,4 +39,4 @@ func main() {
 }
 
 //werkweujhr kj jmhnbnk   
- 
+  //s
