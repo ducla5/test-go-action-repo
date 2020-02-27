@@ -10,9 +10,14 @@ import (
     "api/infrastructure/api/router"
     "api/infrastructure/datastore"
     "api/registry"
+    "fmt"
+	"strconv"
 )
 
 func main() {
+    i1, _ := strconv.Atoi(str1)
+    fmt.Println(i1)
+		
     config.LoadConfig()
 
     db := datastore.NewMySQL()
