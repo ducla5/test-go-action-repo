@@ -7,6 +7,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Build
+        run: go buid api
+        working-directory: goapp
+      - name: Test
+        run: go test
+        working-directory: goapp
       - name: Analytics
         uses: ducla5/action-golangci-lint@v1
         with:
