@@ -27,6 +27,10 @@ func main() {
 
     defer db.Close()
 
-    http.ListenAndServe(":8080", r) 
-//     las djlsazd 234asdasda sdasdas d
+    http.ListenAndServe(":8080", r)
+    
+                    
+    
 }
+
+
