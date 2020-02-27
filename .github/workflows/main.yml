@@ -1,4 +1,4 @@
-name: reviewdog
+name: Code Review
 on: [pull_request]
 jobs:
   golangci-lint:
@@ -13,3 +13,4 @@ jobs:
           github_token: ${{ secrets.GITHUBTOKEN }}
           golangci_lint_flags: "--enable-all --exclude-use-default=false"
           directory: goapp/
+          reporter: github-pr-review 
