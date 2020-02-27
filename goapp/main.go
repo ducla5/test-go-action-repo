@@ -25,7 +25,7 @@ func main() {
 
 	router.NewRouter(r, h)
 
-	defer db.Close()
+    defer db.Close()
 
-	http.ListenAndServe(":8080", r)   
+    http.ListenAndServe(":8080", r)   
 }
