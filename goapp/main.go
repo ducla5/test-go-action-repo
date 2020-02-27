@@ -18,14 +18,15 @@ func main() {
     db := datastore.NewMySQL()
     ps := datastore.NewPostgreSQL()
     r := httprouter.New()
-//     v := validator.New()
+    v := validator.New()
 
     rg := registry.NewInteractor(db, ps, v)
     h := rg.NewAppHandler()
 
     router.NewRouter(r, h)
 
-//     defer db.Close()
+    defer db.Close()
 
     http.ListenAndServe(":8080", r)
+//     asldkjsaldkj
 }
