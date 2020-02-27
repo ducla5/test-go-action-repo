@@ -6,18 +6,13 @@ import (
     "github.com/go-playground/validator/v10"
     "github.com/julienschmidt/httprouter"
 
-    "api/config"
-    "api/infrastructure/api/router"
-    "api/infrastructure/datastore"
-    "api/registry"
-    "fmt"
-	"strconv"
+   "api/config"
+   "api/infrastructure/api/router"
+   "api/infrastructure/datastore"
+   "api/registry"
 )
 
 func main() {
-    i1, _ := strconv.Atoi("sad")
-    fmt.Println(i1)
-		
     config.LoadConfig()
 
     db := datastore.NewMySQL()
@@ -33,10 +28,4 @@ func main() {
     defer db.Close()
 
     http.ListenAndServe(":8080", r)
-    
-                    
-    
 }
-
-//werkweujhr kj jmhnbnk   
- 
